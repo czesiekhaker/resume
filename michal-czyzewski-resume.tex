@@ -1,0 +1,292 @@
+\documentclass[10pt,a4paper]{article}
+
+% include the `tex` instructions that takes care of loading packages and defining commands
+
+% Copyright (c) 2012 Cies Breijs
+%
+% The MIT License
+%
+% Permission is hereby granted, free of charge, to any person obtaining a copy
+% of this software and associated documentation files (the "Software"), to deal
+% in the Software without restriction, including without limitation the rights
+% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+% copies of the Software, and to permit persons to whom the Software is
+% furnished to do so, subject to the following conditions:
+%
+% The above copyright notice and this permission notice shall be included in
+% all copies or substantial portions of the Software.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+% SOFTWARE.
+
+
+% Some commands for making a LaTeX resume
+% =======================================
+
+% Commented ;)
+
+% See the README.md file for more info
+
+
+
+% \documentclass[10pt,a4paper]{article}  % i do this in the document itself
+
+
+%%% LOAD AND SETUP PACKAGES
+
+\usepackage[a4paper,margin=0.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{mdwlist}   % to finetue lists with a inline heading and indented content (see Experiences)
+\usepackage{multicol}  % for multiple column text
+\usepackage{relsize}   % for \textscale, which I prefer over \sc (small caps), see my \acr command
+\usepackage[english]{babel}
+\hyphenation{Some-long-word}
+
+%\usepackage[pdftex]{hyperref}  % yups, URLs everwhere...
+\usepackage{hyperref}  % yups, URLs everwhere...
+\usepackage{xcolor}  % ... and color them links
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.4}
+\hypersetup{colorlinks,linkcolor={dark-blue},citecolor={dark-blue},urlcolor={dark-blue}}
+
+\usepackage{ifxetex}
+\ifxetex
+  \usepackage{fontspec}
+  \setmainfont
+    [ ExternalLocation ,
+      Mapping          = tex-text ,
+      Numbers          = OldStyle ,
+      Ligatures        = {Common,Contextual} ,
+      BoldFont         = texgyrepagella-bold.otf ,
+      ItalicFont       = texgyrepagella-italic.otf ,
+      BoldItalicFont   = texgyrepagella-bolditalic.otf ]
+    {texgyrepagella-regular.otf}
+  % Comment out the previous statement and uncomment the following line to use the
+  % Linux Libertine font (it has nice lignatures).
+  % Make sure to have the `ttf-linux-libertine` package installed on Ubuntu.
+%  \setmainfont[Mapping=tex-text, Numbers=OldStyle, Ligatures={Common,Contextual}]{Linux Libertine O}
+  \usepackage[protrusion]{microtype}  % needs an experimental and impposible to find package for xetex
+\else
+  \usepackage{tgpagella}  % this case we lack lower case numbers, ligatures and some typographic niceties
+  \usepackage[expansion,protrusion]{microtype}
+\fi
+
+
+
+%%% DOCUMENT WIDE STYLING
+
+\pagestyle{empty}
+\setlength{\tabcolsep}{0em}
+\xspaceskip7pt  % some more spacing between sentences (use "i.e.\ " or "with SQL\@. " in case of errors)
+
+
+%%% CUSTOM COMMANDS
+
+% main title (name) with subtitle (date)
+\newcommand*\maintitle[2]{\noindent{\LARGE \textbf{#1}}\ \ \ \emph{#2}}
+
+% title for the root sections (experience, education, etc) of the resume
+\newcommand*\roottitle[1]{\subsection*{#1}\vspace{-0.3em}\nopagebreak[4]}
+
+% acr command, to quickly mark acronyms for special formatting
+\newcommand*\acr[1]{\textscale{.85}{#1}}
+
+% pretty bullet (created from a much smaller centerdot), \sbull contains its spacing
+\newcommand*\bull{\raisebox{-0.365em}[-1em][-1em]{\textscale{4}{$\cdot$}}}
+\newcommand*\sbull{\ \ \bull \ \ }
+
+% it seems not to work when simply using \parindent...
+\newlength{\newparindent}
+\addtolength{\newparindent}{\parindent}
+
+% a double \parindent...
+\newlength{\doubleparindent}
+\addtolength{\doubleparindent}{\parindent}
+\addtolength{\doubleparindent}{\parindent}
+
+% indentsection style, used for sections that aren't already in lists
+% that need indentation to the level of all text in the document
+\newenvironment{indentsection}%
+{\begin{list}{}%
+  {\setlength{\leftmargin}{\newparindent}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}\setlength{\itemsep}{0pt}\setlength{\topsep}{0pt}}%
+}
+{\end{list}}
+
+% headerrow command, used for a new employer
+\newcommand{\headedsection}[3]{\nopagebreak[4]\begin{indentsection}\item[]\textscale{1.1}{#1}\hfill#2#3\end{indentsection}\nopagebreak[4]}
+
+% subheaderrow command, used for a new position
+\newcommand{\headedsubsection}[3]{\nopagebreak[4]\begin{indentsection}\item[]\textbf{#1}\hfill\emph{#2}#3\end{indentsection}\nopagebreak[4]}
+
+% body text (indented)
+\newcommand{\bodytext}[1]{\nopagebreak[4]\begin{indentsection}\item[]#1\end{indentsection}\pagebreak[2]}
+
+% \vspace variaties
+\newcommand{\breakvspace}[1]{\pagebreak[2]\vspace{#1}\pagebreak[2]}
+\newcommand{\nobreakvspace}[1]{\nopagebreak[4]\vspace{#1}\nopagebreak[4]}
+
+% \spacedhrule a horizontal line with some vertical space before and after it
+\newcommand{\spacedhrule}[2]{\breakvspace{#1}\hrule\nobreakvspace{#2}}
+
+% \inlineheadsection command, used for a new employer
+\newcommand{\inlineheadsection}[2]{\begin{basedescript}{\setlength{\leftmargin}{\doubleparindent}}\item[\hspace{\newparindent}\textbf{#1}]#2\end{basedescript}\vspace{-1.7em}}
+
+% apo command, for an apostrophe that looks good on old style nums
+\newcommand{\apo}{\raisebox{-.18ex}{'}{\hspace{-.1em}}}
+
+% non space that allows line breaks
+\newcommand*{\nsp}{\hskip0pt}
+
+%%% MORE SPECIFIC COMMANDS
+
+% CPP command (found it in some corner of the internet and decided to use it)
+\newcommand{\CPP}{C\nolinebreak[4]\hspace{-.04em}\raisebox{.20ex}{\footnotesize\bf++}}
+
+
+
+% % these are in the document itself:
+%
+% \begin{document}
+% ...the document text...
+% \end{document}
+
+% NEW NEW COMMANDS
+% footer
+\newcommand{\footer}[1]{\noindent{\footnotesize#1}}
+
+\begin{document}  % begin the content of the document
+\sloppy  % this to relax whitespacing in favour of straight margins
+
+\maintitle{Michał Czyżewski}{October 31, 1988}  % title on top of the document
+
+\nobreakvspace{0.3em}  % add some page break averse vertical spacing
+
+% \noindent prevents paragraph's first lines from indenting
+% \mbox is used to obfuscate the email address
+% \sbull is a spaced bullet
+% \href well..
+% \\ breaks the line into a new paragraph
+\noindent\href{mailto:me@czesiek.net}{me\mbox{}@\mbox{}czesiek.net}\sbull
+\textsmaller{+}48 604 464 147\sbull
+\href{http://www.linkedin.com/in/mczyzewski}{www.linkedin.com/in/mczyzewski}
+\\
+ks.\ Jana Sitnika 6 m 13\sbull
+01-410\sbull
+Warsaw\sbull
+Poland
+
+
+\spacedhrule{1.4em}{0.1em}  % a horizontal line with some vertical spacing before and after
+
+\roottitle{Experience}
+
+\headedsection
+  {\href{http://brama.elka.pw.edu.pl}{BRAMA Mobile Technology Laboratory}}
+  {} {%
+  \headedsubsection
+    {hacker}
+    {Oct \apo08 -- current}
+    {\bodytext{
+            \emph{AVStreaming} (since Oct \apo09) -- Coordination and on-site support for video streaming of various meetings/conferences (including local NetTuesday meetings, Creative Commons Global Summit 2011 and the visit of Richard Stallman in 2013).
+
+      \emph{Linux w Bramie} (since Oct \apo08) -- Coordination, server and website administration for Free Software meetings/workshops.
+
+      Technical support for the events co-organized with the Warsaw
+      University of Technology.
+%      (Sep \apo10: \emph{Networks 2010} international telecomunication symposium; \
+%      Jun \apo09: \emph{Mobile Open Platform Seminars} event; among others)
+
+      \emph{(references available upon request)}
+    }}
+}
+
+\headedsection
+  {\href{http://infullmobile.com}{inFullMobile}}
+  {} {%
+  \headedsubsection
+    {web/backend developer}
+    {Jul \apo10 -- Dec \apo11}
+    {\bodytext{Design, implementation and deployment of RESTful APIs for mobile phones.
+
+    Implementation and modification of websites (including mobile-oriented).
+
+    \emph{Apple Push Notification Service} scripting.
+
+    Deployment on \emph{Amazon Web Services} cloud solution.}}
+  \headedsubsection
+    {system administrator}
+    {Jun \apo11 -- Dec \apo11}
+    {\bodytext{Creation and maintenance of in-house development infrastructure based on GNU/Linux Gentoo \
+    featuring Trac and Gitolite along with various project deployments.
+
+    Administration of company networks.}}
+}
+
+
+\spacedhrule{1.0em}{0.1em}
+
+\roottitle{Education}
+
+\headedsection
+  {Warsaw University of Technology, Faculty of Electronics and Information Technology}
+  {} {%
+  \headedsubsection
+    {Electronics and Computer Engineering}
+    {2007 -- 2010} {}
+}
+
+
+\spacedhrule{1.0em}{0.1em}
+
+\roottitle{Skills}
+
+\inlineheadsection  % special section that has an inline header with a 'hanging' paragraph
+  {Technical specialties:}
+  {Software design and implementation in PHP, Python, Bash, C/\CPP, \acr{HTML+CSS}, JavaScript.
+  I am interested in functional programming and passionate about \acr{UI}/\acr{UX} design.
+
+  \textbf{Libraries/frameworks:} Bottle, Smarty, jQuery, Mustache.
+
+  \textbf{Version control systems:} Git, Bazaar, SVN.
+
+  \textbf{Database design/administration:} Postgre\acr{SQL}, My\acr{SQL}, sqlite,
+  pgAdmin, My\acr{SQL} Workbench, basic knowledge of
+  No\acr{SQL}/key-value store systems.
+
+  \textbf{Linux administration:} Apache, lighttpd, WSGI, exim, dovecot; solid
+  knowledge of Gentoo and Debian GNU/Linux.
+
+  \textbf{Virtualization technologies:} VirtualBox, EC2.
+  }
+
+%\parskip
+
+\inlineheadsection
+  {Natural languages:}
+  {Polish \emph{(native)}, English \emph{(full professional proficiency)} and Japanese \emph{(beginner)}.}
+
+
+\spacedhrule{2.0em}{0.1em}
+
+\roottitle{Interests}
+
+\bodytext{Cryptography, Free Software, Free Culture.
+
+Japanese language, culture and cuisine. Cooking.
+
+Cycling, running, sailing and hiking.}
+
+
+\spacedhrule{1.0em}{0.5em}
+
+\footer{I hereby agree for my personal data, included in my job application, to \
+be processed in line with the needs of recruitment, in accordance with the Law \
+on Personal Data Protection of 29 August 1997 (Law Gazette from 2002, No.\ 101, \
+heading 926, as amended).}
+
+
+\end{document}
