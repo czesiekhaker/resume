@@ -3,10 +3,4 @@ This is my resume.
 Requirements
 ============
 
-Debian packages:
- - texlive-xetex
- - texlive-latex-recommended
- - texlive-latex-extra
- - tex-gyre
- - texlive-fonts-recommended
- - lmodern (is it?)
+Debian packages: texlive-xetex texlive-latex-recommended texlive-latex-extra tex-gyre texlive-fonts-recommended lmodern
