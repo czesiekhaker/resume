@@ -28,53 +28,30 @@
 % Some commands for making a LaTeX resume
 % =======================================
 
-% Commented ;)
-
-% See the README.md file for more info
-
-
-
-% \documentclass[10pt,a4paper]{article}  % i do this in the document itself
-
 
 %%% LOAD AND SETUP PACKAGES
 
 \usepackage[a4paper,margin=0.75in]{geometry}
-\usepackage[utf8]{inputenc}
 \usepackage{mdwlist}   % to finetue lists with a inline heading and indented content (see Experiences)
 \usepackage{multicol}  % for multiple column text
 \usepackage{relsize}   % for \textscale, which I prefer over \sc (small caps), see my \acr command
 \usepackage[english]{babel}
 \hyphenation{Some-long-word}
 
-%\usepackage[pdftex]{hyperref}  % yups, URLs everwhere...
 \usepackage{hyperref}  % yups, URLs everwhere...
 \usepackage{xcolor}  % ... and color them links
-\definecolor{dark-blue}{rgb}{0.15,0.15,0.4}
-\hypersetup{colorlinks,linkcolor={dark-blue},citecolor={dark-blue},urlcolor={dark-blue}}
+\definecolor{czyan}{rgb}{0,0.47,0.47}
+\hypersetup{colorlinks,linkcolor={czyan},citecolor={czyan},urlcolor={czyan}}
 
 \usepackage{ifxetex}
 \ifxetex
   \usepackage{fontspec}
-  \setmainfont
-    [ ExternalLocation ,
-      Mapping          = tex-text ,
-      Numbers          = OldStyle ,
-      Ligatures        = {Common,Contextual} ,
-      BoldFont         = texgyrepagella-bold.otf ,
-      ItalicFont       = texgyrepagella-italic.otf ,
-      BoldItalicFont   = texgyrepagella-bolditalic.otf ]
-    {texgyrepagella-regular.otf}
-  % Comment out the previous statement and uncomment the following line to use the
-  % Linux Libertine font (it has nice lignatures).
-  % Make sure to have the `ttf-linux-libertine` package installed on Ubuntu.
-%  \setmainfont[Mapping=tex-text, Numbers=OldStyle, Ligatures={Common,Contextual}]{Linux Libertine O}
+  \setmainfont[Mapping=tex-text, Numbers=OldStyle, Ligatures={Common,Contextual}]{Linux Libertine O}
   \usepackage[protrusion]{microtype}  % needs an experimental and impposible to find package for xetex
 \else
   \usepackage{tgpagella}  % this case we lack lower case numbers, ligatures and some typographic niceties
   \usepackage[expansion,protrusion]{microtype}
 \fi
-
 
 
 %%% DOCUMENT WIDE STYLING
@@ -171,13 +148,13 @@
 % \href well..
 % \\ breaks the line into a new paragraph
 \noindent\href{mailto:me@czesiek.net}{me\mbox{}@\mbox{}czesiek.net}\sbull
-PGP ID: 824C278F\sbull
-\textsmaller{+}48 604 464 147\sbull
+OpenPGP: C67C 5C93 94E2 8A89 DB69  90AF BC0D F6EE 824C 278F
+
+\noindent\textsmaller{+}48 604 464 147\sbull
 \href{https://www.linkedin.com/in/mczyzewski}{www.linkedin.com/in/mczyzewski}
 \\
-Wołoska 141A / 410B\sbull
-02-507\sbull
-Warsaw\sbull
+Podleśna 52 m.\ 117\sbull
+01-673 Warsaw\sbull
 Poland
 
 
@@ -208,15 +185,15 @@ Poland
     {backend developer / system administrator}
     {Apr -- Oct \apo13}
     {\bodytext{
-      Implementation of custom web solutions using the company's framework. Data integration across systems via XML and SOAP\@.
-      Administration of company networks and server maintenance. Gitolite deployment and DVCS training.
+      Implementation of custom web solutions using the company's framework. Data integration across systems via \acr{XML} and \acr{SOAP}\@.
+      Administration of company networks and server maintenance. Gitolite deployment and \acr{DVCS} training.
     }}
 }
 
 \nobreakvspace{1em}
 
 \headedsection
-  {\href{http://brama.elka.pw.edu.pl}{BRAMA Mobile Technology Laboratory}}
+  {\textcolor{czyan}{BRAMA Mobile Technology Laboratory}}
   {} {%
   \headedsubsection
     {hacker}
@@ -281,20 +258,22 @@ Poland
 
 \inlineheadsection  % special section that has an inline header with a 'hanging' paragraph
   {Technical specialties:}
-  {Software design and implementation in PHP, Python, Bash, C/\CPP, \acr{HTML+CSS}, JavaScript.
-  I am interested in functional programming and passionate about \acr{UI}/\acr{UX} design.
+  {Software design and implementation in \acr{PHP}, Python, Bash, C/\CPP, \acr{HTML+CSS}, JavaScript. \\
+  \noindent I am interested in functional programming and passionate about \acr{UI}/\acr{UX} design.
 
   \textbf{Libraries/frameworks:} Bottle, Smarty, jQuery, Mustache.
 
-  \textbf{Version control systems:} Git, Bazaar, SVN, Gitolite hosting.
+  \textbf{Version control:} Git, Bazaar, \acr{SVN}, Gitolite hosting.
+  
+  \textbf{Configuration management:} Ansible.
 
   \textbf{Database design/administration:} Postgre\acr{SQL}, My\acr{SQL}, sqlite,
   pgAdmin, My\acr{SQL} Workbench.
 
-  \textbf{Linux administration:} Apache, nginx, WSGI, exim, dovecot; solid
+  \textbf{Linux administration:} Apache, nginx, \acr{WSGI}, exim, dovecot; solid
   knowledge of Gentoo and Debian GNU/Linux.
 
-  \textbf{Virtualization technologies:} VirtualBox, EC2, KVM.
+  \textbf{Virtualization:} VirtualBox, Amazon \acr{EC2}, \acr{KVM}, libvirt/virsh, Vagrant.
   }
 
 \nobreakvspace{1em}
@@ -310,11 +289,8 @@ Poland
 
 \nobreakvspace{1em}
 
-\bodytext{IT security, cryptography, Free Software, Free Culture. Member of \href{https://hackerspace.pl}{Warsaw Hackerspace}.
-
-Japanese culture. Cooking.
-
-Cycling, running, sailing and hiking.}
+\bodytext{IT security, cryptography, Free Software, Free Culture. Active member of \href{https://hackerspace.pl}{Warsaw Hackerspace} (president of the revisory comission since \apo14).
+Japanese culture. Cooking. Cycling, running, sailing and hiking.}
 
 
 \spacedhrule{2.0em}{0.5em}
